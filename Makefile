@@ -74,6 +74,12 @@ ifndef UNATTENDED_CREATION
 	@echo "chown 32767:32767 /var/lib/dokku/data/storage/$(APP_NAME)-plugins"
 	@echo "dokku storage:mount $(APP_NAME) /var/lib/dokku/data/storage/$(APP_NAME)-plugins:/app/wp-content/plugins"
 	@echo ""
+	# setup themes persistent storage
+	@echo ""
+	@echo "mkdir -p /var/lib/dokku/data/storage/$(APP_NAME)-themes"
+	@echo "chown 32767:32767 /var/lib/dokku/data/storage/$(APP_NAME)-themes"
+	@echo "dokku storage:mount $(APP_NAME) /var/lib/dokku/data/storage/$(APP_NAME)-themes:/app/wp-content/themes"
+	@echo ""
 	# setup upload persistent storage
 	@echo ""
 	@echo "mkdir -p /var/lib/dokku/data/storage/$(APP_NAME)-uploads"
@@ -100,6 +106,7 @@ else
 	@chmod +x /tmp/wp-salts
 	$(DOKKU_CMD) apps:create $(APP_NAME)
 	$(DOKKU_CMD) storage:mount $(APP_NAME) /var/lib/dokku/data/storage/$(APP_NAME)-plugins:/app/wp-content/plugins
+	$(DOKKU_CMD) storage:mount $(APP_NAME) /var/lib/dokku/data/storage/$(APP_NAME)-themes:/app/wp-content/themes
 	$(DOKKU_CMD) storage:mount $(APP_NAME) /var/lib/dokku/data/storage/$(APP_NAME)-uploads:/app/wp-content/uploads
 	$(DOKKU_CMD) mysql:create $(APP_NAME)-database
 	$(DOKKU_CMD) mysql:link $(APP_NAME)-database $(APP_NAME)
@@ -109,6 +116,8 @@ else
 	@echo ""
 	@echo "mkdir -p /var/lib/dokku/data/storage/$(APP_NAME)-plugins"
 	@echo "chown 32767:32767 /var/lib/dokku/data/storage/$(APP_NAME)-plugins"
+	@echo "mkdir -p /var/lib/dokku/data/storage/$(APP_NAME)-themes"
+	@echo "chown 32767:32767 /var/lib/dokku/data/storage/$(APP_NAME)-themes"
 	@echo "mkdir -p /var/lib/dokku/data/storage/$(APP_NAME)-uploads"
 	@echo "chown 32767:32767 /var/lib/dokku/data/storage/$(APP_NAME)-uploads"
 	@echo ""
@@ -139,6 +148,7 @@ ifndef UNATTENDED_CREATION
 	# run the following commands on the server to remove storage directories on disk
 	@echo ""
 	@echo "rm -rf /var/lib/dokku/data/storage/$(APP_NAME)-plugins"
+	@echo "rm -rf /var/lib/dokku/data/storage/$(APP_NAME)-themes"
 	@echo "rm -rf /var/lib/dokku/data/storage/$(APP_NAME)-uploads"
 	@echo ""
 	# now, on your local machine, cd into your app's parent directory and remove the app
@@ -153,6 +163,7 @@ else
 	# run the following commands on the server to remove storage directories on disk
 	@echo ""
 	@echo "rm -rf /var/lib/dokku/data/storage/$(APP_NAME)-plugins"
+	@echo "rm -rf /var/lib/dokku/data/storage/$(APP_NAME)-themes"
 	@echo "rm -rf /var/lib/dokku/data/storage/$(APP_NAME)-uploads"
 	@echo ""
 	# now, on your local machine, cd into your app's parent directory and remove the app
