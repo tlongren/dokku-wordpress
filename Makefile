@@ -3,11 +3,11 @@ ifndef APP_NAME
 endif
 
 ifndef WORDPRESS_VERSION
-	WORDPRESS_VERSION = 4.9.1
+	WORDPRESS_VERSION = 4.9.4
 endif
 
 ifndef BUILDPACK_VERSION
-	BUILDPACK_VERSION = v127
+	BUILDPACK_VERSION = v131
 endif
 
 ifndef DOKKU_USER
@@ -87,6 +87,7 @@ ifndef UNATTENDED_CREATION
 	@echo "dokku storage:mount $(APP_NAME) /var/lib/dokku/data/storage/$(APP_NAME)-uploads:/app/wp-content/uploads"
 	@echo ""
 	# setup your mysql database and link it to your app
+	# if you're using MariaDB, replace mysql with mariadb
 	@echo ""
 	@echo "export MYSQL_IMAGE_VERSION=\"5.6\""
 	@echo "dokku mysql:create $(APP_NAME)-database"
@@ -137,6 +138,7 @@ ifndef SERVER_NAME
 endif
 ifndef UNATTENDED_CREATION
 	# destroy the mysql database
+	# if you're using MariaDB, replace mysql with mariadb
 	@echo ""
 	@echo "dokku mysql:unlink $(APP_NAME)-database $(APP_NAME)"
 	@echo "dokku mysql:destroy $(APP_NAME)-database"
@@ -156,6 +158,7 @@ ifndef UNATTENDED_CREATION
 	@echo "rm -rf $(APP_NAME)"
 else
 	# destroy the mysql database
+	# if you're using MariaDB, replace mysql with mariadb
 	$(DOKKU_CMD) mysql:unlink $(APP_NAME)-database $(APP_NAME)
 	$(DOKKU_CMD) mysql:destroy $(APP_NAME)-database
 	# destroy the app
